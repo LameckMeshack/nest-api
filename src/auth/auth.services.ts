@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+// import {User, Bookmark} from '@prisma/client' prisma types from the schema
 
 
 @Injectable({})
