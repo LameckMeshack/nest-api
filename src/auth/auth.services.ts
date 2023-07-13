@@ -13,15 +13,6 @@ export class AuthService {
     async signup(regDto: AuthDto) {
         const hash = await argon.hash(regDto.password);
         try {
-            // const user = await this.prisma.user.findUnique({
-            //     where: {
-            //         email: regDto.email
-            //     }
-            // });
-            // if (user) {
-            //     throw new Error('User already exists');
-            // }
-
             const newUser = await this.prisma.user.create({
                 data: {
                     email: regDto.email,
@@ -49,7 +40,6 @@ export class AuthService {
         const user = await this.prisma.user.findUnique({
             where: { email: loginDto.email }
         });
-
         if (!user) {
             throw new ForbiddenException('Credentials Incorrect');
         }
