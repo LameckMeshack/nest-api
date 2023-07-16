@@ -11,19 +11,19 @@ export class AuthService {
     constructor(private prisma: PrismaService) { }
 
     async signup(regDto: AuthDto) {
-        const hash = await argon.hash(regDto.password);
+        const hashPass = await argon.hash(regDto.password);
         try {
             const newUser = await this.prisma.user.create({
                 data: {
                     email: regDto.email,
-                    hash,
+                    hash: hashPass,
                 }
             });
 
-            // delete newUser.hash;
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { hash, ...regUser } = newUser;
 
-            // console.log(newUser)
-            return newUser;
+            return regUser;
         }
         catch (error) {
             if (error instanceof PrismaClientKnownRequestError) {
@@ -48,9 +48,10 @@ export class AuthService {
         if (!isMatch) {
             throw new ForbiddenException('Credentials Incorrect');
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { hash, ...authUser } = user;
 
-        // delete user?.hash;
-        return user;
+        return authUser;
     }
 
 
