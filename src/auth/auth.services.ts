@@ -4,7 +4,6 @@ import * as argon from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JwtService } from '@nestjs/jwt';
-import { config } from 'process';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable({})
