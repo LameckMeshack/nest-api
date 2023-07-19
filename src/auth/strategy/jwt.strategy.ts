@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
@@ -20,7 +20,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
                 id: payload.sub
             }
         })
-        return user;
+        if (!user) {
+            // Handle the case when the user is not found
+            throw new NotFoundException('error finding auth user');
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { hash, ...authUser } = user;
+        return authUser;
     }
 }
 
